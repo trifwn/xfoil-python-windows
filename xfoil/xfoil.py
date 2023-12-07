@@ -66,7 +66,10 @@ class XFoil(object):
         handle = self._lib._handle
         del self._lib
         try:
-            ctypes.windll.kernel32.FreeLibrary(handle)
+            from ctypes import wintypes
+            kernel32 = ctypes.WinDLL('kernel32', use_last_error=True)    
+            kernel32.FreeLibrary.argtypes = [wintypes.HMODULE]
+            kernel32.FreeLibrary(handle)
         except AttributeError:
             pass
         finally:
