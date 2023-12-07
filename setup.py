@@ -57,6 +57,7 @@ def install(package: str, version: str) -> None:
         name=package,
         version=version,
         packages=['xfoil'],
+        package_data= {'xfoil': ['libxfoil.dll',"libxfoil.dll.a"]},
         include_package_data=True,
     )
 
