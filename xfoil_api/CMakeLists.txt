@@ -7,7 +7,9 @@ set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} \
 -fbounds-check \
 -finit-real=inf \
 -ffpe-trap=invalid,zero \
--fdefault-real-8")
+-fdefault-real-8 \
+-static \
+-static-libgfortran -static-libgcc ")
 
 add_library(xfoil SHARED
         # Include modules
@@ -41,3 +43,24 @@ add_library(xfoil SHARED
         src/m_xutils.f90
         # API
         src/api.f90)
+
+# Add cpack
+
+#include(CPack)
+#set(CPACK_PACKAGE_NAME "xfoil")
+#set(CPACK_PACKAGE_VERSION "1.0.0")
+#set(CPACK_GENERATOR "NSIS")  # You can change this to other generators like DEB, RPM, etc.
+#
+## Add any other CPack configurations as needed
+## For example, setting the package description, author, etc.
+#set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Your package description summary")
+#set(CPACK_PACKAGE_VENDOR "Your vendor name")
+#set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README.md")
+#set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
+#
+#
+#add_custom_target(build_and_package
+#    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target all
+#    COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target package
+#    COMMENT "Building and packaging xfoil")
+#

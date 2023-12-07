@@ -49,7 +49,7 @@ class XFoil(object):
 
     def __init__(self):
         super().__init__()
-        tmp = NamedTemporaryFile(mode='wb', delete=False, suffix=lib_ext)
+        tmp = NamedTemporaryFile(mode='wb', delete=True,delete_on_close=True, suffix=lib_ext)
         tmp.close()
         self._lib_path = tmp.name
         copy2(lib_path, self._lib_path)
@@ -70,7 +70,10 @@ class XFoil(object):
         except AttributeError:
             pass
         finally:
-            os.remove(self._lib_path)
+            try:
+                os.remove(self._lib_path)
+            except PermissionError:
+                pass
 
     @property
     def print(self):

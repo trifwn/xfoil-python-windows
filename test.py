@@ -18,8 +18,8 @@
 import numpy as np
 import unittest
 
-from .xfoil import XFoil
-from .model import Airfoil
+from xfoil import XFoil
+from xfoil.model import Airfoil
 
 naca0012 = Airfoil(
     x=np.array([+1.0000e+00, +9.9168e-01, +9.8037e-01, +9.6727e-01, +9.5272e-01, +9.3720e-01, +9.2112e-01, +9.0474e-01,
