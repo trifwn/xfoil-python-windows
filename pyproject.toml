@@ -1,2 +1,36 @@
 [build-system]
 requires = ["scikit-build", "cmake"]
+
+[project]
+name = "xfoil"
+dynamic = ["version"]
+license= {file = "LICENSE.md"}
+authors = [
+    {name = "Daniël de Vries", email = "contact@daniel-de-vries.com"},
+    {name = "Tryfonas Themas", email = "tryfonthem@gmail.com"}
+]
+description='Stripped down version of XFOIL as compiled python module '
+readme = "README.md"
+classifiers=[
+    'Development Status :: 3 - Alpha',
+    'Intended Audience :: Science/Research',
+    'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
+    'Natural Language :: English',
+    'Operating System :: MacOS :: MacOS X',
+    'Operating System :: POSIX :: Linux',
+    'Operating System :: Microsoft :: Windows',
+    'Programming Language :: Fortran',
+    'Programming Language :: Python :: 3 :: Only',
+    'Topic :: Scientific/Engineering'
+]
+keywords=[
+    'xfoil',
+    'airfoil',
+    'aerodynamic analysis'
+]
+dependencies = [
+    'numpy',
+]
+
+[project.urls]
+Repository = "https://github.com/trifwn/xfoil-python-windows"

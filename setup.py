@@ -16,43 +16,78 @@
 #   You should have received a copy of the GNU General Public License
 #   along with XFoil.  If not, see <https://www.gnu.org/licenses/>.
 import re
+import os 
+import sys
+
 from setuptools import setup
 
-__version__ = re.findall(
-    r"""__version__ = ["']+([0-9\.]*)["']+""",
-    open('xfoil/__init__.py').read(),
-)[0]
+here = os.path.abspath(os.path.dirname(__file__))
 
-def readme():
-    with open('README.md') as f:
-        return f.read()
+def get_package_version() -> str:
+    """Get the package version from the __init__ file"""
+    __version__ = re.findall(
+        r"""__version__ = ["']+([0-9\.]*)["']+""",
+        open('xfoil/__init__.py').read(),
+    )[0]
+    return __version__
 
+def main():
+    package = 'xfoil'
+    __version__ = get_package_version()
 
-setup(
-    name='xfoil',
-    version=__version__,
-    description='Stripped down version of XFOIL as compiled python module ',
-    long_description=readme(),
-    long_description_content_type='text/markdown',
-    classifiers=[
-        'Development Status :: 3 - Alpha',
-        'Intended Audience :: Science/Research',
-        'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
-        'Natural Language :: English',
-        'Operating System :: MacOS :: MacOS X',
-        'Operating System :: POSIX :: Linux',
-        'Operating System :: Microsoft :: Windows',
-        'Programming Language :: Fortran',
-        'Programming Language :: Python :: 3 :: Only',
-        'Topic :: Scientific/Engineering',
-    ],
-    keywords='xfoil airfoil aerodynamic analysis',
-    url='https://github.com/daniel-de-vries/xfoil-python',
-    download_url='https://github.com/daniel-de-vries/xfoil-python/tarball/' + __version__,
-    author='Daniël de Vries',
-    author_email='contact@daniel-de-vries.com',
-    license='GNU General Public License v3 or later (GPLv3+)',
-    packages=['xfoil'],
-    # package_dir={'': 'src'},
-    install_requires=['numpy'],
-)
+    if len(sys.argv) >= 2:
+        command: str = sys.argv[1]
+    else:
+        command = ""
+
+    if command == "uninstall":
+        uninstall(package)
+    else:
+        install(package, __version__)
+        print(f"Command {command} not recognized")
+
+def install(package: str, version: str) -> None:
+    """INSTALL THE PACKAGE
+
+    Args:
+        package (str): Package Name
+        version (str): Version Number
+    """
+    setup(
+        name=package,
+        version=version,
+        packages=['xfoil'],
+    )
+
+def uninstall(package: str) -> None:
+    """Uninstall the package
+
+    Args:
+        package (str): Package Name
+    """
+    try:
+        import pip
+    except ImportError:
+        print("Error importing pip")
+        return
+
+    import sys, shutil
+    # clean up local egg-info
+    try:
+        shutil.rmtree(package + '.egg-info')
+    except:
+        pass     
+
+        # setup up uninstall arguments
+    args = sys.argv
+    del args[0:1+1]
+    args = ['uninstall', package] + args
+    
+    # uninstall
+    try:
+        pip.main(args)
+    except:
+        pass
+
+if __name__ == "__main__":
+    main()
