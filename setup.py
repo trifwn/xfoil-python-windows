@@ -57,6 +57,7 @@ def install(package: str, version: str) -> None:
         name=package,
         version=version,
         packages=['xfoil'],
+        include_package_data=True,
     )
 
 def uninstall(package: str) -> None:
