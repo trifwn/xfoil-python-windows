@@ -2,14 +2,27 @@ cmake_minimum_required(VERSION 3.10)
 project(xfoil Fortran)
 
 enable_language(Fortran)
-set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} \
--O \
--fbounds-check \
--finit-real=inf \
--ffpe-trap=invalid,zero \
--fdefault-real-8 \
--static \
--static-libgfortran -static-libgcc ")
+if (${CMAKE_Fortran_COMPILER_ID} MATCHES "GNU")
+	set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} \
+		-O3 \
+		-fbounds-check \
+		-finit-real=inf \
+		-ffpe-trap=invalid,zero \
+		-fdefault-real-8 \
+		-static \
+		-static-libgfortran -static-libgcc "
+	)
+else()
+   set (CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} \
+		-Ofast \
+		-check bounds \
+                -fpe0 \
+                -fpp \
+                -r8 \
+		-static \
+		-static-intel "
+	)
+endif()
 
 add_library(xfoil SHARED
         # Include modules
